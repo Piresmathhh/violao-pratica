@@ -1,0 +1,10 @@
+SONS DE VIOLÃO
+==============
+Os arquivos de áudio na pasta sons/ são gravações de violão acústico
+da University of Iowa Electronic Music Studios (theremin.music.uiowa.edu),
+distribuídos através do projeto tonejs-instruments (github.com/nbrosowsky/tonejs-instruments).
+
+Licença: Creative Commons Attribution 3.0 (CC-BY 3.0)
+https://creativecommons.org/licenses/by/3.0/
+
+Código do tonejs-instruments: MIT License.
