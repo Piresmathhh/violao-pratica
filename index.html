@@ -131,27 +131,38 @@
   .mbtn.primary.on { background: var(--rust); border-color: var(--rust); color: #fff; }
 
   /* Chords */
-  .chord-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 12px; }
+  .chord-legend {
+    background: var(--bg-card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 18px; margin-bottom: 16px; font-size: 13.5px; color: var(--ink-soft); line-height: 1.7;
+  }
+  .chord-legend b { color: var(--ink); }
+  .chord-legend .row { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 8px; }
+  .chord-legend .sym { color: var(--amber); font-weight: 700; display: inline-block; min-width: 14px; }
+  .chord-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
   .chord {
     background: var(--bg-card); border: 1px solid var(--line); border-radius: 16px;
-    padding: 14px 10px 12px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s;
-    position: relative;
+    padding: 16px 16px 14px; transition: border-color .2s, background .2s; position: relative;
   }
-  .chord:hover { border-color: var(--amber-deep); }
   .chord.mastered { background: var(--bg-card-2); border-color: var(--green); }
-  .chord .cname { font-family: var(--display); font-weight: 900; font-size: 22px; margin-bottom: 8px; }
-  .chord svg { display: block; margin: 0 auto; }
+  .chord .chord-top { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+  .chord .cname { font-family: var(--display); font-weight: 900; font-size: 30px; line-height: 1; }
+  .chord svg { display: block; flex-shrink: 0; }
   .chord .check {
-    position: absolute; top: 8px; right: 8px; width: 20px; height: 20px; border-radius: 50%;
+    position: absolute; top: 12px; right: 12px; width: 22px; height: 22px; border-radius: 50%;
     border: 1.5px solid var(--ink-faint); display: flex; align-items: center; justify-content: center;
-    font-size: 12px; color: transparent;
+    font-size: 12px; color: transparent; cursor: pointer; transition: border-color .15s;
   }
-  .chord.mastered .check { background: var(--green); border-color: var(--green); color: #fff; }
-  .chord .tip { font-size: 11px; color: var(--ink-faint); margin-top: 6px; min-height: 26px; line-height: 1.3; }
-  .chord .check { cursor: pointer; transition: border-color .15s; }
   .chord .check:hover { border-color: var(--green); }
-  .chord.ringing { border-color: var(--amber); background: var(--bg-card-2); }
-  .chord .speaker { position: absolute; top: 8px; left: 8px; font-size: 12px; color: var(--ink-faint); }
+  .chord.mastered .check { background: var(--green); border-color: var(--green); color: #fff; }
+  .chord .steps { list-style: none; display: flex; flex-direction: column; gap: 7px; margin: 0 0 10px; }
+  .chord .steps li { font-size: 13.5px; color: var(--ink); display: flex; gap: 9px; align-items: flex-start; line-height: 1.45; }
+  .chord .steps .fnum { background: var(--amber); color: #1a1410; font-weight: 700; font-size: 11px; width: 19px; height: 19px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+  .chord .muted-note { font-size: 12px; color: var(--ink-faint); margin-bottom: 12px; line-height: 1.4; }
+  .chord .muted-note b { color: var(--rust); }
+  .hear-btn { width: 100%; border: 1px solid var(--line); background: var(--bg-card-2); color: var(--ink); border-radius: 9px; padding: 10px; font-family: var(--body); font-weight: 600; font-size: 13px; cursor: pointer; transition: background .15s; }
+  .hear-btn:hover { background: var(--line); }
+  .chord.ringing { border-color: var(--amber); }
+  .chord.ringing .hear-btn { background: var(--amber); color: #1a1410; border-color: var(--amber); }
 
   /* Plan */
   .plan { display: flex; flex-direction: column; gap: 8px; }
@@ -196,6 +207,32 @@
   .loading { text-align: center; padding: 60px 20px; color: var(--ink-faint); }
   .footer-note { font-size: 13px; color: var(--ink-faint); text-align: center; margin-top: 40px; line-height: 1.6; }
   .reset { background: none; border: none; color: var(--ink-faint); text-decoration: underline; cursor: pointer; font-family: var(--body); font-size: 13px; }
+
+  /* Modal de posição dos dedos */
+  .modal-bg { position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-box { background:var(--bg-card); border:1px solid var(--line); border-radius:24px; max-width:480px; width:100%; max-height:90vh; overflow-y:auto; padding:28px 26px 24px; position:relative; }
+  .modal-close { position:absolute; top:14px; right:16px; background:none; border:1px solid var(--line); border-radius:8px; color:var(--ink-faint); cursor:pointer; padding:4px 10px; font-size:16px; }
+  .modal-close:hover { background:var(--line); color:var(--ink); }
+  .modal-head { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+  .modal-cname { font-family:var(--display); font-weight:900; font-size:44px; line-height:1; color:var(--ink); }
+  .modal-tip-txt { font-size:14px; color:var(--ink-soft); }
+  .finger-legend { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 6px; }
+  .fl-item { display:flex; align-items:center; gap:5px; font-size:12.5px; color:var(--ink-soft); background:var(--bg-card-2); border:1px solid var(--line); border-radius:20px; padding:4px 10px; }
+  .fl-dot { width:13px; height:13px; border-radius:50%; flex-shrink:0; }
+  .diagrams-row { display:grid; grid-template-columns:1fr 1fr; gap:18px; align-items:start; margin:16px 0; }
+  @media(max-width:400px){ .diagrams-row { grid-template-columns:1fr; } }
+  .diag-label { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); font-weight:700; margin-bottom:8px; text-align:center; }
+  .tip-block { background:var(--bg-card-2); border-left:3px solid var(--amber); border-radius:0 12px 12px 0; padding:12px 14px; margin-top:10px; }
+  .tip-block.danger { border-left-color: var(--rust); }
+  .tip-block.green { border-left-color: var(--green); }
+  .tip-block .tip-lbl { font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700; margin-bottom:4px; }
+  .tip-block .tip-lbl.amber { color:var(--amber); }
+  .tip-block .tip-lbl.rust { color:var(--rust); }
+  .tip-block .tip-lbl.green { color:var(--green); }
+  .tip-block p { font-size:13.5px; color:var(--ink-soft); line-height:1.55; }
+  .see-btn { width:100%; border:1px solid var(--line); background:transparent; color:var(--ink-soft); border-radius:9px; padding:9px; font-family:var(--body); font-weight:600; font-size:13px; cursor:pointer; transition:background .15s, color .15s; margin-top:8px; }
+  .see-btn:hover { background:var(--line); color:var(--ink); }
+
 </style>
 </head>
 <body>
@@ -214,6 +251,61 @@ const CHORDS = {
   'A':  { frets:[-1,0,2,2,2,0], fingers:[0,0,1,2,3,0], tip:'3 dedos na mesma casa.' },
   'D7': { frets:[-1,-1,0,2,1,2], fingers:[0,0,0,2,1,3], tip:'Adiciona cor.' },
   'E':  { frets:[0,2,2,1,0,0], fingers:[0,2,3,1,0,0], tip:'Como Em + 1 dedo.' },
+};
+
+
+const FINGER_COLORS = { 1:'#5b9bd5', 2:'#6fa86b', 3:'#e8a83c', 4:'#b47bd5' };
+const FINGER_LABEL  = { 1:'Indicador', 2:'Médio', 3:'Anelar', 4:'Mindinho' };
+
+const CHORD_TIPS = {
+  'Em': {
+    dica: 'O mais fácil. 2 dedos, formato natural da mão. Bom pra começar.',
+    erro: 'Pressionar com a parte plana da ponta do dedo — abafa a corda vizinha. Use só a pontinha arredondada.',
+    dor:  'Dói porque o dedo está esticado demais. Incline o pulso levemente pra frente: os dedos ficam curvados e cada um só toca a corda dele.',
+    transicao: 'Em → Am: mantém os dedos 2 e 3 no mesmo formato, só desce uma corda.',
+  },
+  'Am': {
+    dica: 'Base de quase tudo. Aprenda bem esse que o resto fica mais fácil.',
+    erro: 'Dedos longe do fio de metal (centro da casa) — o som chia. Pressione o mais perto possível do fret (fio).',
+    dor:  'Dói no indicador? Ele está pressionando com o lado. Gire um pouco o dedo pra usar a ponta.',
+    transicao: 'Am → C: dedo 1 desce uma corda, dedos 2 e 3 sobem uma casa cada.',
+  },
+  'G': {
+    dica: 'Parece difícil mas é versátil. Respira e estica.',
+    erro: 'Dedo 1 ou 3 encostar na corda 1 (a mais fina) e abafá-la — ela precisa soar solta.',
+    dor:  'Dói no polegar ou no arco da mão? Você está apertando o braço como se fosse cair. Relaxe o polegar — ele só apoia, não aperta.',
+    transicao: 'G → D: dedos 1 e 2 ficam em casa, dedo 3 sai, dedo 4 entra.',
+  },
+  'C': {
+    dica: 'O mais difícil dos abertos. Leva mais tempo — é normal.',
+    erro: 'O dedo 3 (anelar, corda 5 casa 3) acaba tombando e abafando a corda 1. Curve bem o anelar.',
+    dor:  'Dói na base dos dedos ou no punho? Você está usando força demais. Violão afinado precisa de pressão leve — só o suficiente pra tirar o chiado.',
+    transicao: 'C → G: dedos 1 e 2 deslizam pra posição G sem levantar completamente.',
+  },
+  'D': {
+    dica: 'Formato de triângulo. As 2 cordas graves (5 e 6) não tocam — cuidado na batida.',
+    erro: 'Rastelar as cordas 5 e 6 no strumming — tire só das cordas 4 a 1.',
+    dor:  'Dói no anelar? Normal — é o dedo menos usado do dia a dia. Vai melhorar em semanas. Não force.',
+    transicao: 'D → Em: tudo sai, colocar dedos 2 e 3 em G+B corda 2a casa.',
+  },
+  'A': {
+    dica: '3 dedos na mesma casa — mais fácil do que parece quando você aprende o truque.',
+    erro: 'Dedos retos na mesma linha — um abafa o outro. Posicione em diagonal (escadinha).',
+    dor:  'Dói porque os dedos estão disputando espaço. Alternativa: use o dedo 1 em mini-pestana (cobre as 3 cordas da casa 2).',
+    transicao: 'A → D: dedos 2 e 3 viram o "triângulo" do D, dedo 1 se move uma corda.',
+  },
+  'D7': {
+    dica: 'Muito parecido com D. Só muda a corda 2 — adiciona cor à harmonia.',
+    erro: 'Esquecer que cordas 5 e 6 não tocam — mesma regra do D.',
+    dor:  'Não costuma doer. Se doer, está pressionando corda errada ou dedo torto.',
+    transicao: 'D7 → G: boa progressão — D7 resolve naturalmente em G.',
+  },
+  'E': {
+    dica: 'Como Em com um dedo a mais. Se você sabe Em, E vem fácil.',
+    erro: 'Confundir com Em e esquecer o dedo 1 na corda 3, casa 1.',
+    dor:  'Dói porque o dedo 1 está forçado num ângulo não natural. Deixe o pulso mais flexionado pra frente.',
+    transicao: 'E → A: dedo 1 sai, dedos 2 e 3 sobem duas casas. Comum em músicas de Rock.',
+  },
 };
 
 const PLAN = [
@@ -257,6 +349,7 @@ function load() {
   } catch(e) { /* primeira vez ou storage indisponível */ }
   if (!STATE.startDate) STATE.startDate = todayStr();
   render();
+  prefetchSamples(); // baixa os sons de violão em segundo plano
 }
 function save() {
   try { localStorage.setItem(KEY, JSON.stringify(STATE)); }
@@ -283,22 +376,157 @@ function streak(){
 }
 
 // ---------- CHORD SVG ----------
+const FINGER_NAMES={1:'indicador',2:'médio',3:'anelar',4:'mindinho'};
+function chordSteps(name){
+  const c=CHORDS[name]; const steps=[]; const mute=[];
+  for(let i=0;i<6;i++){
+    const corda=6-i; const fr=c.frets[i]; const fg=c.fingers[i];
+    if(fr===-1){ mute.push(corda); }
+    else if(fr>0){ steps.push({fg:fg||'?', txt:`Dedo <b>${FINGER_NAMES[fg]||'?'}</b> na corda ${corda}, casa ${fr}`}); }
+  }
+  return {steps, mute};
+}
 function chordSVG(name){
-  const c = CHORDS[name]; const W=84,H=92, mL=14, mT=16, sp=(W-mL-10)/5, fh=16, frets=4;
+  const c=CHORDS[name]; const frets=4;
+  const W=104,H=120, mL=24, mR=10, mT=24; const sp=(W-mL-mR)/5, fh=18;
   let s=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
-  // nut
-  s+=`<rect x="${mL}" y="${mT-3}" width="${sp*5}" height="3" fill="var(--ink-soft)"/>`;
-  for(let f=1;f<=frets;f++){ const y=mT+f*fh; s+=`<line x1="${mL}" y1="${y}" x2="${mL+sp*5}" y2="${y}" stroke="var(--line)" stroke-width="1.5"/>`; }
-  for(let i=0;i<6;i++){ const x=mL+i*sp; s+=`<line x1="${x}" y1="${mT}" x2="${x}" y2="${mT+fh*frets}" stroke="var(--ink-faint)" stroke-width="1"/>`; }
+  s+=`<rect x="${mL}" y="${mT-3.5}" width="${sp*5}" height="3.5" fill="var(--ink-soft)" rx="1"/>`;
+  for(let f=1;f<=frets;f++){ const y=mT+f*fh;
+    s+=`<line x1="${mL}" y1="${y}" x2="${mL+sp*5}" y2="${y}" stroke="var(--line)" stroke-width="1.5"/>`;
+    s+=`<text x="${mL-10}" y="${mT+(f-0.5)*fh+3}" text-anchor="middle" font-size="8.5" fill="var(--ink-faint)" font-family="sans-serif">${f}</text>`; }
+  for(let i=0;i<6;i++){ const x=mL+i*sp; const w=(1+(5-i)*0.22).toFixed(2);
+    s+=`<line x1="${x}" y1="${mT}" x2="${x}" y2="${mT+fh*frets}" stroke="var(--ink-faint)" stroke-width="${w}"/>`; }
   for(let i=0;i<6;i++){
     const x=mL+i*sp; const fr=c.frets[i];
-    if(fr===-1){ s+=`<text x="${x}" y="${mT-6}" text-anchor="middle" font-size="10" fill="var(--rust)" font-family="sans-serif">×</text>`; }
-    else if(fr===0){ s+=`<circle cx="${x}" cy="${mT-7}" r="3" fill="none" stroke="var(--ink-soft)" stroke-width="1.3"/>`; }
-    else { const y=mT+(fr-0.5)*fh; s+=`<circle cx="${x}" cy="${y}" r="5.5" fill="var(--amber)"/>`;
-      if(c.fingers[i]) s+=`<text x="${x}" y="${y+3.2}" text-anchor="middle" font-size="8" fill="#1a1410" font-weight="700" font-family="sans-serif">${c.fingers[i]}</text>`; }
+    if(fr===-1){ s+=`<text x="${x}" y="${mT-7}" text-anchor="middle" font-size="11" fill="var(--rust)" font-family="sans-serif">×</text>`; }
+    else if(fr===0){ s+=`<circle cx="${x}" cy="${mT-8}" r="3.2" fill="none" stroke="var(--ink-soft)" stroke-width="1.3"/>`; }
+    else { const y=mT+(fr-0.5)*fh; s+=`<circle cx="${x}" cy="${y}" r="6.8" fill="var(--amber)"/>`;
+      if(c.fingers[i]) s+=`<text x="${x}" y="${y+3.6}" text-anchor="middle" font-size="9.5" fill="#1a1410" font-weight="700" font-family="sans-serif">${c.fingers[i]}</text>`; }
+  }
+  for(let i=0;i<6;i++){ const x=mL+i*sp; s+=`<text x="${x}" y="${mT+fh*frets+13}" text-anchor="middle" font-size="8.5" fill="var(--ink-faint)" font-family="sans-serif">${6-i}</text>`; }
+  s+='</svg>'; return s;
+}
+
+
+// ---------- CHORD DETAIL MODAL ----------
+function chordSVGLarge(name){
+  const c=CHORDS[name]; const frets=4;
+  const W=180, H=210, mL=34, mR=14, mT=38; const sp=(W-mL-mR)/5, fh=28;
+  let s=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  // Nut
+  s+=`<rect x="${mL}" y="${mT-5}" width="${sp*5}" height="5" fill="var(--ink-soft)" rx="1.5"/>`;
+  // Fret lines + numbers
+  for(let f=1;f<=frets;f++){
+    const y=mT+f*fh;
+    s+=`<line x1="${mL}" y1="${y}" x2="${mL+sp*5}" y2="${y}" stroke="var(--line)" stroke-width="1.5"/>`;
+    s+=`<text x="${mL-12}" y="${mT+(f-0.5)*fh+5}" text-anchor="middle" font-size="10" fill="var(--ink-faint)" font-family="sans-serif">${f}</text>`;
+  }
+  // String lines
+  for(let i=0;i<6;i++){
+    const x=mL+i*sp; const w=(1+(5-i)*0.28).toFixed(2);
+    s+=`<line x1="${x}" y1="${mT}" x2="${x}" y2="${mT+fh*frets}" stroke="var(--ink-faint)" stroke-width="${w}"/>`;
+  }
+  // Dots and open/mute indicators
+  for(let i=0;i<6;i++){
+    const x=mL+i*sp; const fr=c.frets[i]; const fg=c.fingers[i];
+    const col=FINGER_COLORS[fg]||'var(--amber)';
+    if(fr===-1){ s+=`<text x="${x}" y="${mT-11}" text-anchor="middle" font-size="14" fill="var(--rust)" font-family="sans-serif">×</text>`; }
+    else if(fr===0){ s+=`<circle cx="${x}" cy="${mT-13}" r="5" fill="none" stroke="var(--ink-soft)" stroke-width="1.5"/>`; }
+    else {
+      const y=mT+(fr-0.5)*fh;
+      s+=`<circle cx="${x}" cy="${y}" r="10" fill="${col}" opacity="0.92"/>`;
+      if(fg) s+=`<text x="${x}" y="${y+4.5}" text-anchor="middle" font-size="12" fill="#fff" font-weight="700" font-family="sans-serif">${fg}</text>`;
+    }
+  }
+  // String labels at bottom
+  for(let i=0;i<6;i++){
+    const x=mL+i*sp;
+    s+=`<text x="${x}" y="${mT+fh*frets+16}" text-anchor="middle" font-size="9" fill="var(--ink-faint)" font-family="sans-serif">${6-i}</text>`;
   }
   s+='</svg>'; return s;
 }
+
+function handViewSVG(name){
+  // Fretboard from player's POV: strings run top-bottom, frets left-right
+  const c=CHORDS[name];
+  const W=160, H=200, fL=28, fT=20, strSp=20, fretSp=36, frets=4, strings=6;
+  let s=`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`;
+  // Nut
+  s+=`<rect x="${fL}" y="${fT}" width="4" height="${strSp*(strings-1)}" fill="var(--ink-soft)" rx="1"/>`;
+  // Fret lines
+  for(let f=1;f<=frets;f++){
+    const x=fL+f*fretSp;
+    s+=`<line x1="${x}" y1="${fT}" x2="${x}" y2="${fT+strSp*(strings-1)}" stroke="var(--line)" stroke-width="1.5"/>`;
+    s+=`<text x="${fL+(f-0.5)*fretSp}" y="${fT-6}" text-anchor="middle" font-size="9" fill="var(--ink-faint)" font-family="sans-serif">${f}</text>`;
+  }
+  // String lines (string 6 at top, string 1 at bottom)
+  for(let i=0;i<strings;i++){
+    const y=fT+i*strSp; const w=(1+(strings-1-i)*0.28).toFixed(2);
+    s+=`<line x1="${fL}" y1="${y}" x2="${fL+fretSp*frets}" y2="${y}" stroke="var(--ink-faint)" stroke-width="${w}"/>`;
+    s+=`<text x="${fL-10}" y="${y+4}" text-anchor="middle" font-size="9" fill="var(--ink-faint)" font-family="sans-serif">${strings-i}</text>`;
+  }
+  // Dots
+  for(let i=0;i<strings;i++){
+    const fr=c.frets[i]; const fg=c.fingers[i];
+    const strIdx=i; // string 6 at top (index 0)
+    const y=fT+strIdx*strSp;
+    const col=FINGER_COLORS[fg]||'var(--amber)';
+    if(fr===-1){
+      s+=`<text x="${fL-18}" y="${y+4}" text-anchor="middle" font-size="12" fill="var(--rust)" font-family="sans-serif">×</text>`;
+    } else if(fr===0){
+      s+=`<circle cx="${fL-18}" cy="${y}" r="5" fill="none" stroke="var(--ink-soft)" stroke-width="1.5"/>`;
+    } else {
+      const x=fL+(fr-0.5)*fretSp;
+      s+=`<circle cx="${x}" cy="${y}" r="9" fill="${col}" opacity="0.92"/>`;
+      if(fg) s+=`<text x="${x}" y="${y+4}" text-anchor="middle" font-size="11" fill="#fff" font-weight="700" font-family="sans-serif">${fg}</text>`;
+    }
+  }
+  s+='</svg>'; return s;
+}
+
+function showChordDetail(name){
+  const c=CHORDS[name]; const t=CHORD_TIPS[name]||{};
+  // Finger legend
+  const usedFingers=[...new Set(c.fingers.filter(f=>f>0))].sort();
+  const legendHtml = usedFingers.map(f=>`
+    <span class="fl-item">
+      <span class="fl-dot" style="background:${FINGER_COLORS[f]}"></span>
+      <b>${f}</b>&nbsp;${FINGER_LABEL[f]}
+    </span>`).join('');
+
+  const html=`
+    <div class="modal-bg" onclick="if(event.target===this)closeModal()">
+      <div class="modal-box">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div class="modal-head">
+          <div class="modal-cname">${name}</div>
+          <div class="modal-tip-txt">${c.tip||''}</div>
+        </div>
+        <div class="finger-legend">${legendHtml}</div>
+        <div class="diagrams-row">
+          <div>
+            <div class="diag-label">Braço (frontal)</div>
+            <div style="display:flex;justify-content:center;">${chordSVGLarge(name)}</div>
+          </div>
+          <div>
+            <div class="diag-label">Vista do tocador</div>
+            <div style="display:flex;justify-content:center;">${handViewSVG(name)}</div>
+          </div>
+        </div>
+        ${t.dica?`<div class="tip-block green"><div class="tip-lbl green">💡 Dica</div><p>${t.dica}</p></div>`:''}
+        ${t.erro?`<div class="tip-block danger"><div class="tip-lbl rust">⚠️ Erro comum</div><p>${t.erro}</p></div>`:''}
+        ${t.dor?`<div class="tip-block"><div class="tip-lbl amber">🤕 Se dói…</div><p>${t.dor}</p></div>`:''}
+        ${t.transicao?`<div class="tip-block"><div class="tip-lbl amber">↔️ Transição</div><p>${t.transicao}</p></div>`:''}
+        <button class="hear-btn" style="margin-top:16px" onclick="playChord('${name}')">🔊 Ouvir como soa</button>
+      </div>
+    </div>`;
+  const div=document.createElement('div'); div.id='chord-modal'; div.innerHTML=html;
+  document.body.appendChild(div);
+}
+function closeModal(){
+  const m=document.getElementById('chord-modal'); if(m) m.remove();
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
 
 // ---------- METRONOME ----------
 let audioCtx=null, metroOn=false, metroTimer=null, beatCount=0;
@@ -329,9 +557,42 @@ function stopMetro(){
 function setBpm(v){ STATE.bpm=+v; const el=document.getElementById('bpmVal'); if(el)el.textContent=v;
   if(metroOn){ clearInterval(metroTimer); metroTimer=setInterval(tick,60000/STATE.bpm); } save(); }
 
-// ---------- CHORD AUDIO (Karplus-Strong: simula corda dedilhada) ----------
-const OPEN = [82.41,110.00,146.83,196.00,246.94,329.63]; // cordas soltas 6ª→1ª (E A D G B E)
+// ---------- CHORD AUDIO ----------
+// Usa gravações reais de violão acústico (pasta sons/). Se os samples não
+// carregarem (ex: aberto sem servidor), cai num fallback sintetizado.
+const OPEN = [82.41,110.00,146.83,196.00,246.94,329.63]; // cordas soltas 6ª→1ª
 function ensureCtx(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }
+
+// Notas reais que cada acorde toca, grave→agudo (nomes = arquivos em sons/)
+const CHORD_NOTES = {
+  'Em':['E2','B2','E3','G3','B3','E4'],
+  'Am':['A2','E3','A3','C4','E4'],
+  'G' :['G2','B2','D3','G3','D4','G4'],
+  'C' :['C3','E3','G3','C4','E4'],
+  'D' :['D3','A3','D4','Fs4'],
+  'A' :['A2','E3','A3','Cs4','E4'],
+  'D7':['D3','A3','C4','Fs4'],
+  'E' :['E2','B2','E3','Gs3','B3','E4'],
+};
+const NOTE_FILES = ['A2','A3','B2','B3','C3','C4','Cs4','D3','D4','E2','E3','E4','Fs4','G2','G3','G4','Gs3'];
+const SAMPLE_PATH = 'sons/';
+let rawSamples={}, buffers={}, decoded=false, samplesOk=false;
+
+async function prefetchSamples(){
+  await Promise.all(NOTE_FILES.map(async n=>{
+    try{ const r=await fetch(SAMPLE_PATH+n+'.mp3'); if(r.ok){ rawSamples[n]=await r.arrayBuffer(); samplesOk=true; } }catch(e){}
+  }));
+}
+async function decodeSamples(){
+  if(decoded) return; const ctx=ensureCtx();
+  await Promise.all(NOTE_FILES.map(async n=>{
+    if(!rawSamples[n]) return;
+    try{ buffers[n]=await ctx.decodeAudioData(rawSamples[n].slice(0)); }catch(e){}
+  }));
+  decoded=true;
+}
+
+// Fallback sintetizado (Karplus-Strong) quando não há samples
 function pluckBuffer(freq, dur){
   const ctx=ensureCtx(); const sr=ctx.sampleRate; const N=Math.max(2,Math.round(sr/freq));
   const len=Math.floor(sr*dur); const buf=ctx.createBuffer(1,len,sr); const out=buf.getChannelData(0);
@@ -340,16 +601,27 @@ function pluckBuffer(freq, dur){
   for(let i=0;i<len;i++){ const cur=ring[idx]; const nxt=ring[(idx+1)%N]; const v=0.5*(cur+nxt)*decay; ring[idx]=v; out[i]=cur; idx=(idx+1)%N; }
   return buf;
 }
-function playNote(freq, when, dur, gainVal){
-  const ctx=ensureCtx(); const src=ctx.createBufferSource(); src.buffer=pluckBuffer(freq,dur);
-  const g=ctx.createGain(); g.gain.value=gainVal||0.4;
-  const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3800;
-  src.connect(lp); lp.connect(g); g.connect(ctx.destination); src.start(when);
-}
-function playChord(name, el){
+function playSynth(name){
   const ctx=ensureCtx(); const c=CHORDS[name]; if(!c) return; const t0=ctx.currentTime; let k=0;
-  for(let i=0;i<6;i++){ const fr=c.frets[i]; if(fr<0) continue; const f=OPEN[i]*Math.pow(2,fr/12); playNote(f, t0+k*0.028, 2.6, 0.42); k++; }
+  for(let i=0;i<6;i++){ const fr=c.frets[i]; if(fr<0) continue; const f=OPEN[i]*Math.pow(2,fr/12);
+    const src=ctx.createBufferSource(); src.buffer=pluckBuffer(f,2.6); const g=ctx.createGain(); g.gain.value=0.4;
+    const lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=3800;
+    src.connect(lp); lp.connect(g); g.connect(ctx.destination); src.start(t0+k*0.028); k++; }
+}
+
+async function playChord(name, el){
+  const ctx=ensureCtx();
   if(el){ el.classList.add('ringing'); setTimeout(()=>el.classList.remove('ringing'),700); }
+  if(!decoded && samplesOk) await decodeSamples();
+  const notes=CHORD_NOTES[name];
+  const haveSamples = notes && notes.every(n=>buffers[n]);
+  if(haveSamples){
+    const t0=ctx.currentTime+0.02;
+    notes.forEach((n,i)=>{ const s=ctx.createBufferSource(); s.buffer=buffers[n];
+      const g=ctx.createGain(); g.gain.value=0.85; s.connect(g); g.connect(ctx.destination); s.start(t0+i*0.035); });
+  } else {
+    playSynth(name); // fallback
+  }
 }
 
 // ---------- PROGRESSION PLAYER ----------
@@ -425,16 +697,28 @@ function render(){
     </section>
 
     <section>
-      <div class="sec-head"><h2>Seus acordes</h2><span class="sec-note">Toque o card pra ouvir · ✓ pra marcar dominado</span></div>
+      <div class="sec-head"><h2>Seus acordes</h2><span class="sec-note">Leia a legenda primeiro</span></div>
+      <div class="chord-legend">
+        <b>Como ler:</b> o desenho é o braço do violão visto de frente, como se ele estivesse em pé. As 6 linhas verticais são as cordas — a <b>corda 6</b> (na esquerda) é a mais <b>grossa</b>, e a <b>corda 1</b> (na direita) é a mais <b>fina</b>. As linhas horizontais numeradas são as casas.
+        <div class="row">
+          <span><span class="sym">●</span> aperte aqui (o número é o dedo)</span>
+          <span><span class="sym">○</span> corda solta (toca sem apertar)</span>
+          <span><span class="sym">×</span> não toca essa corda</span>
+        </div>
+        <div class="row">
+          <b>Seus dedos:</b><span><span class="sym">1</span> indicador</span><span><span class="sym">2</span> médio</span><span><span class="sym">3</span> anelar</span><span><span class="sym">4</span> mindinho</span>
+        </div>
+      </div>
       <div class="chord-grid">
-        ${Object.keys(CHORDS).map(n=>`
-          <div class="chord ${STATE.mastered.includes(n)?'mastered':''}" onclick="playChord('${n}', this)" title="Tocar acorde">
-            <div class="speaker">🔊</div>
-            <div class="check" onclick="event.stopPropagation();toggleChord('${n}')" title="Marcar como dominado">✓</div>
-            <div class="cname">${n}</div>
-            ${chordSVG(n)}
-            <div class="tip">${CHORDS[n].tip}</div>
-          </div>`).join('')}
+        ${Object.keys(CHORDS).map(n=>{ const st=chordSteps(n); return `
+          <div class="chord ${STATE.mastered.includes(n)?'mastered':''}">
+            <div class="check" onclick="toggleChord('${n}')" title="Marcar como dominado">✓</div>
+            <div class="chord-top">${chordSVG(n)}<div class="cname">${n}</div></div>
+            <ul class="steps">${st.steps.map(s=>`<li><span class="fnum">${s.fg}</span><span>${s.txt}</span></li>`).join('')}</ul>
+            <div class="muted-note">${st.mute.length?`Não toca: <b>corda ${st.mute.join(' e ')}</b>. `:''}As demais cordas tocam soltas.</div>
+            <button class="hear-btn" onclick="playChord('${n}', this.closest('.chord'))">🔊 Ouvir como soa</button>
+            <button class="see-btn" onclick="showChordDetail('${n}')">👆 Ver posição dos dedos</button>
+          </div>`; }).join('')}
       </div>
     </section>
 
@@ -470,6 +754,9 @@ function render(){
     <div class="footer-note">
       Seu progresso fica salvo automaticamente neste app.<br>
       <button class="reset" onclick="resetAll()">Recomeçar do zero</button>
+      <div style="margin-top:18px; font-size:11px; opacity:.7;">
+        Sons de violão: University of Iowa Electronic Music Studios, via tonejs-instruments — <a href="https://creativecommons.org/licenses/by/3.0/" style="color:var(--ink-faint);">CC-BY 3.0</a>.
+      </div>
     </div>
   `;
 }
